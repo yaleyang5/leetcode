@@ -4,13 +4,14 @@
  * @return {number[]}
  */
 var twoSum = function(nums, target) {
-    var sums = {};
+    // create an object -> seen elements
+    var seenElements = {};
     for (var i = 0; i < nums.length; i++) {
-        for (var j = i + 1; j < nums.length; j++) {
-            if (nums[i] + nums[j] === target) {
-                return [i, j];
-            }
+        var currValue = nums[i];
+        if (seenElements[currValue] !== undefined) {
+            return [i, seenElements[currValue]]
         }
+        seenElements[target - currValue] = i;
     }
-    return [-1, -1]
+    return [-1,-1]
 };
