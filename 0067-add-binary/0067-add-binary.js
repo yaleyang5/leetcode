@@ -10,7 +10,7 @@ var addBinary = function(a, b) {
     for (var i = 0; i < Math.max(a.length, b.length); i++) {
         var n1 = i < a.length ? Number(a[a.length - 1 - i]) : 0;
         var n2 = i < b.length ? Number(b[b.length - 1 - i]) : 0;
-        var sum = n1 + n2 + carry;
+        sum = n1 + n2 + carry;
         carry = 0;
         if (sum === 0) {
             result = '0' + result;
