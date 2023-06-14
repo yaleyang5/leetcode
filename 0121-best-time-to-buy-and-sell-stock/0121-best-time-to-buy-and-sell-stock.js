@@ -14,10 +14,11 @@ var maxProfit = function(prices) {
         // min? update min, clear max.
         // max? update diff
     for (var i = 0; i < prices.length; i++) {
-        if (prices[i] < min) {
-            min = prices[i];
+        var price = prices[i];
+        if (price < min) {
+            min = price;
         } else {
-            max = prices[i];
+            max = price;
             diff = Math.max(max - min, diff);
         }
     }
