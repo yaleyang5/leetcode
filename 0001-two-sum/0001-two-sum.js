@@ -4,14 +4,19 @@
  * @return {number[]}
  */
 var twoSum = function(nums, target) {
-    // create an object -> seen elements
-    var seenElements = {};
+    // iterate through nums
+    // how to store pairs of sums? key: target - value, value: index
+        // we then check if value exists in set
+        // if so, return current index and value
+    var values = {};
     for (var i = 0; i < nums.length; i++) {
-        var currValue = nums[i];
-        if (seenElements[currValue] !== undefined) {
-            return [i, seenElements[currValue]]
+        var value = nums[i];
+        var vIndex = values[value];
+        if (vIndex === undefined) {
+            values[target - value] = i;
+        } else {
+            return [i, vIndex];
         }
-        seenElements[target - currValue] = i;
     }
-    return [-1,-1]
+    return [-1, -1];
 };
