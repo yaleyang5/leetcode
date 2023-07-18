@@ -9,7 +9,7 @@ var isPalindrome = function(s) {
     var alphas = 0;
     const alphanumeric = /^[\p{L}\p{N}]*$/u;
     var j = s.length - 1;
-    for (var i = 0; i < s.length && j >= 0; i++) {
+    for (var i = 0; i < j; i++) {
         while (i + 1 < s.length && !s[i].toLowerCase().match(alphanumeric)) {
             i++;
         } 
