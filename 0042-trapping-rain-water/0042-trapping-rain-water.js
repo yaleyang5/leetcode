@@ -15,14 +15,12 @@ var trap = function(height) {
         var rightHeight = height[r];
         var rightHigher = leftHeight <= rightHeight;
         water = rightHigher ? maxLeft - leftHeight : maxRight - rightHeight;
-        if (water > 0) {
-            sum += water;
-        }
-        maxLeft = Math.max(maxLeft, leftHeight);
-        maxRight = Math.max(maxRight, rightHeight);
+        sum = water > 0 ? sum + water : sum;
         if (rightHigher) {
+            maxLeft = Math.max(maxLeft, leftHeight);
             l++;
         } else {
+            maxRight = Math.max(maxRight, rightHeight);
             r--;
         }
     }
