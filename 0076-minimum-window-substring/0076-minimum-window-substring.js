@@ -21,10 +21,11 @@ var minWindow = function(s, t) {
     var sSet = {};
     for (var i = 0; i < s.length; i++) {
         // console.log(s.substring(l, i + 1));
-        if (sSet[s[i]] === undefined) {
-            sSet[s[i]] = 0;
+        var end = s[i];
+        if (sSet[end] === undefined) {
+            sSet[end] = 0;
         }
-        sSet[s[i]] += 1;
+        sSet[end] += 1;
         // console.log(sSet);
         var found = true;
         for (var key in tSet) {
@@ -34,8 +35,9 @@ var minWindow = function(s, t) {
         }
         // iterate left until we find a character that is in tSet. record minimum, continue right pointer
         while (found && l <= i) {
+            var start = s[l];
             // console.log("found!", l, i);
-            if (tSet[s[l]] !== undefined && sSet[s[l]] !== undefined && tSet[s[l]] <= sSet[s[l]]) {
+            if (tSet[start] !== undefined && sSet[start] !== undefined && tSet[start] <= sSet[start]) {
                 var str = s.substring(l, i + 1);
                 var len = str.length;
                 if (min[0] > len) {
@@ -43,7 +45,7 @@ var minWindow = function(s, t) {
                     min[1] = str;
                 }
             }
-            sSet[s[l]] -= 1;
+            sSet[start] -= 1;
             l++;
             if (l <= i && sSet[s[l - 1]] < tSet[s[l - 1]]) {
                 found = false;
