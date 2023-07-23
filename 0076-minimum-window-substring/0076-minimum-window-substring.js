@@ -11,10 +11,11 @@ var minWindow = function(s, t) {
     var l = 0;
     var tSet = {};
     for (var i = 0; i < t.length; i++) {
-        if (tSet[t[i]] === undefined) {
-            tSet[t[i]] = 0;
+        var curr = t[i];
+        if (tSet[curr] === undefined) {
+            tSet[curr] = 0;
         }
-        tSet[t[i]] += 1;
+        tSet[curr] += 1;
     }
     // console.log(tSet);
     var min = [s.length + 1, ""];
