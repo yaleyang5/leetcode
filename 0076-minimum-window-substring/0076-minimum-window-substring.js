@@ -37,7 +37,8 @@ var minWindow = function(s, t) {
             // record length
             if (len > r - l + 1) {
                 len = r - l + 1;
-                result = [l, r];
+                result[0] = l;
+                result[1] = r;
             }
             // check and remove first char
             if (sSet[firstChar] === tSet[firstChar]) {
