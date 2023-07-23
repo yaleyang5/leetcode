@@ -32,14 +32,12 @@ var minWindow = function(s, t) {
         if (sSet[temp] === tSet[temp]) {
             have++;
         }
-        
         while (have === need) {
             var firstChar = s[l]
             // record length
             if (len > r - l + 1) {
                 len = r - l + 1;
-                result[0] = l;
-                result[1] = r;
+                result = [l, r];
             }
             // check and remove first char
             if (sSet[firstChar] === tSet[firstChar]) {
