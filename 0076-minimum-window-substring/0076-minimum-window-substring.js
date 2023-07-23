@@ -18,7 +18,7 @@ var minWindow = function(s, t) {
         tSet[curr] += 1;
     }
     // console.log(tSet);
-    var min = [s.length + 1, ""];
+    var min = [0, s.length + 1];
     var sSet = {};
     for (var i = 0; i < s.length; i++) {
         // console.log(s.substring(l, i + 1));
@@ -39,11 +39,9 @@ var minWindow = function(s, t) {
             var start = s[l];
             // console.log("found!", l, i);
             if (tSet[start] !== undefined && sSet[start] !== undefined && tSet[start] <= sSet[start]) {
-                var str = s.substring(l, i + 1);
-                var len = str.length;
-                if (min[0] > len) {
-                    min[0] = len;
-                    min[1] = str;
+                if (min[1] - min[0] + 1 > i - l + 1) {
+                    min[0] = l;
+                    min[1] = i;
                 }
             }
             sSet[start] -= 1;
@@ -53,5 +51,6 @@ var minWindow = function(s, t) {
             }
         }
     }
-    return min[1];
+    // console.log(min[0], min[1]);
+    return min[1] === s.length + 1 ? "" : s.substring(min[0], min[1] + 1);
 };
