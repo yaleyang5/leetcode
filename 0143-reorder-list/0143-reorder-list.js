@@ -10,24 +10,36 @@
  * @return {void} Do not return anything, modify head in-place instead.
  */
 var reorderList = function(head) {
-    // let's do it in O(n) time first.
-    var temp = head;
-    var dummy = new ListNode(0, head);
-    var arr = [];
-    while (temp !== null) {
-        arr.push(temp);
-        temp = temp.next;
+    var slow = head;
+    var fast = head.next;
+    while (fast !== null && fast.next !== null) {
+        slow = slow.next;
+        fast = fast.next.next;
     }
-    // console.log(arr);
-    temp = dummy;
-    for (var i = 0; i < Math.floor(arr.length / 2); i++) {
-        temp.next = arr[i];
-        temp = temp.next;
-        temp.next = arr[arr.length - i - 1];
-        temp = temp.next;
-        temp.next = arr[i + 1];
-        temp = temp.next;
+    var temp = slow.next;
+    slow.next = null;
+    var second = reverse(temp);
+    var first = head;
+    
+    while (second !== null) {
+        var temp1 = first.next;
+        var temp2 = second.next;
+        first.next = second;
+        second.next = temp1;
+        first = temp1;
+        second = temp2;
     }
-    temp.next = null;
-    return dummy.next;
+    
+    return head;
 };
+
+var reverse = (head) => {
+    var prev = null;
+    while (head !== null) {
+        var temp = head.next;
+        head.next = prev;
+        prev = head;
+        head = temp;
+    }
+    return prev;
+}
