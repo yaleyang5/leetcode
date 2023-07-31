@@ -33,7 +33,7 @@ var findPivot = (nums) => {
     var end = len - 1;
     while (start <= end) {
         var mid = start + Math.floor((end - start) / 2);
-        if (mid + 1 < nums.length && nums[mid] > nums[mid + 1]) {
+        if (mid + 1 < len && nums[mid] > nums[mid + 1]) {
             return mid + 1;
         } else if (mid - 1 >= 0 && nums[mid - 1] > nums[mid]) {
             return mid;
