@@ -11,39 +11,22 @@
  * @return {ListNode}
  */
 var removeNthFromEnd = function(head, n) {
-    // len === 1
-    if (head.next === null) {
-        return null;
+    var arr = [];
+    var temp = head;
+    while (temp !== null) {
+        arr.push(temp);
+        temp = temp.next;
     }
-    // len === 2
-    if (head.next.next === null) {
-        if (n === 1) {
-            head.next = null;
-            return head;
-        } else {
-            return head.next;
-        }
-    }
-    // len >= 3
-    var first = head;
-    var last = head;
-    for (var i = 0; i < n; i++) {
-        last = last.next;
-    }
-    if (last === null) {
-        // len === n
+    var len = arr.length;
+    var removeIndex = len - n;
+    console.log(arr, removeIndex);
+    if (n === len) {
         return head.next;
+    } else if (n === 1) {
+        arr[len - 2].next = null;
+    } else {
+        arr[removeIndex - 1].next = arr[removeIndex + 1];
     }
-    last = last.next;
-    // two pointers n away from each other
-    // when first one reaches null, remove node that is being pointed to
-    while (last !== null) {
-        first = first.next;
-        last = last.next;
-    }
-    // var second = first.next;
-    // first.next = second.next;
-    // second.next = null;
-    first.next = first.next.next;
+    
     return head;
 };
