@@ -11,22 +11,29 @@
  * @return {ListNode}
  */
 var removeNthFromEnd = function(head, n) {
-    var arr = [];
-    var temp = head;
-    while (temp !== null) {
-        arr.push(temp);
-        temp = temp.next;
+    if (head === null || head.next === null) {
+        return null;
     }
-    var len = arr.length;
-    var removeIndex = len - n;
-    console.log(arr, removeIndex);
-    if (n === len) {
+    if (head.next.next === null) {
+        if (n === 1) {
+            head.next = null;
+            return head;
+        } else {
+            return head.next;
+        }
+    }
+    var l = head;
+    var r = head;
+    for (var i = 0; i < n; i++) {
+        r = r.next;
+    }
+    if (r === null) {
         return head.next;
-    } else if (n === 1) {
-        arr[len - 2].next = null;
-    } else {
-        arr[removeIndex - 1].next = arr[removeIndex + 1];
     }
-    
+    while (r.next !== null) {
+        l = l.next;
+        r = r.next;
+    }
+    l.next = l.next.next;
     return head;
 };
