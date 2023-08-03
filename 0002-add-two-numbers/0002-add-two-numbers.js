@@ -11,62 +11,38 @@
  * @return {ListNode}
  */
 var addTwoNumbers = function(l1, l2) {
-    // brute force
-    var arr1 = [];
-    var arr2 = [];
-    while (l1 !== null) {
-        arr1.push(l1.val);
+    var head = new ListNode();
+    var temp = head;
+    var prev = temp;
+    var carry = 0;
+    while (l1 !== null && l2 !== null) {
+        var val = l1.val + l2.val + carry;
+        temp.val = val % 10;
+        carry = val >= 10 ? 1 : 0;
+        temp.next = new ListNode();
+        prev = temp;
+        temp = temp.next;
         l1 = l1.next;
-    }
-    while (l2 !== null) {
-        arr2.push(l2.val);
         l2 = l2.next;
     }
-    var res = addTwoArrays(arr1, arr2);
-    if (res.length === 0) {
-        return null;
+    while (l1 !== null || l2 !== null) {
+        val = l1 === null ? l2.val + carry : l1.val + carry;
+        temp.val = val % 10;
+        carry = val >= 10 ? 1 : 0;
+        temp.next = new ListNode();
+        prev = temp;
+        temp = temp.next;
+        if (l1 === null) {
+            l2 = l2.next;
+        } else {
+            l1 = l1.next;
+        }
     }
-    var head = new ListNode(res[0]);
-    var prev = head;
-    for (var i = 1; i < res.length; i++) {
-        var node = new ListNode(res[i]);
-        prev.next = node;
-        prev = node;
+    if (carry === 1) {
+        temp.val = 1;
+    }
+    if (temp.val === 0) {
+        prev.next = null;
     }
     return head;
 };
-
-var addTwoArrays = (a1, a2) => {
-    // return result array in reverse order
-    var result = [];
-    if (a1.length > a2.length) {
-        var carry = 0;
-        for (var i = 0; i < a1.length; i++) {
-            if (a2[i] !== undefined) {
-                result.push((a1[i] + a2[i] + carry) % 10);
-                carry = a1[i] + a2[i] + carry >= 10 ? 1 : 0;
-            } else {
-                result.push((a1[i] + carry) % 10);
-                carry = a1[i] + carry >= 10 ? 1 : 0;
-            }
-        }
-        if (carry === 1) {
-            result.push(1);
-        }
-    } else {
-        var carry = 0;
-        for (var i = 0; i < a2.length; i++) {
-            if (a1[i] !== undefined) {
-                result.push((a1[i] + a2[i] + carry) % 10);
-                carry = a1[i] + a2[i] + carry >= 10 ? 1 : 0;
-            } else {
-                result.push((a2[i] + carry) % 10);
-                carry = a2[i] + carry >= 10 ? 1 : 0;
-            }
-        }
-        if (carry === 1) {
-            result.push(1);
-        }
-    }
-    return result;
-}
