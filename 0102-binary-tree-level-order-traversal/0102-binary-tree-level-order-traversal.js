@@ -14,23 +14,18 @@ var levelOrder = function(root) {
     if (root === null || root === undefined) {
         return [];
     }
-    var result = [[root.val]];
+    var result = [];
     var q = [root];
     while (q.length > 0) {
         var level = [];
         var len = q.length;
-        for (var i = 0; i < len; i++) {
-            if (q[i].left) {
-                q.push(q[i].left);
-                level.push(q[i].left.val);
+        for (var i = 0; i < len; i++) { 
+            var node = q.shift();
+            if (node) {
+                level.push(node.val);
+                q.push(node.left);
+                q.push(node.right);
             }
-            if (q[i].right) {
-                q.push(q[i].right);
-                level.push(q[i].right.val);
-            }
-        }
-        for (var i = 0; i < len; i++) {
-            q.shift();
         }
         if (level.length > 0) {
             result.push(level);
