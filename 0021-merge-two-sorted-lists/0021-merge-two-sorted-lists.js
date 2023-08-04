@@ -10,30 +10,41 @@
  * @param {ListNode} list2
  * @return {ListNode}
  */
-var mergeTwoLists = function(list1, list2) {
-    if (list1 === undefined || list1 === null) {
-        return list2;
+var mergeTwoLists = function(l1, l2) {
+    if (l1 === null && l2 === null) {
+        return null;
+    } else if (l1 === null) {
+        return l2;
+    } else if (l2 === null) {
+        return l1;
     }
-    if (list2 === undefined || list2 === null) {
-        return list1;
-    }
-    var head = list1.val <= list2.val ? list1 : list2;
-    var temp = head;
-    if (head.val === list1.val) {
-        list1 = list1.next;
+    var dummy;
+    var temp;
+    if (l1.val > l2.val) {
+        dummy = new ListNode(0, l2);
+        temp = l2;
+        l2 = l2.next;
     } else {
-        list2 = list2.next;
+        dummy = new ListNode(0, l1);
+        temp = l1;
+        l1 = l1.next;
     }
-    while (list1 !== null || list2 !== null) {
-        if (list1 === null || (list2 !== null && list1.val > list2.val)) {
-            temp.next = list2;
-            list2 = list2.next;
-            temp = temp.next;
+    while (l1 !== null && l2 !== null) {
+        if (l1.val > l2.val) {
+            temp.next = l2;
+            temp = l2;
+            l2 = l2.next;
         } else {
-            temp.next = list1;
-            list1 = list1.next;
-            temp = temp.next;
+            temp.next = l1;
+            temp = l1;
+            l1 = l1.next;
         }
     }
-    return head;
+    if (l1 === null) {
+        temp.next = l2;
+    }
+    if (l2 === null) {
+        temp.next = l1;
+    }
+    return dummy.next;
 };
