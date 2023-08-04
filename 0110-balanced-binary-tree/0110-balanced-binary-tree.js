@@ -11,15 +11,16 @@
  * @return {boolean}
  */
 var isBalanced = function(root) {
-    var dfs = (root) => {
-        if (root === null) {
-            return [true, 0];
-        }
-        var left = dfs(root.left);
-        var right = dfs(root.right);
-        var balanced = left[0] && right[0] && Math.abs(left[1] - right[1]) <= 1;
-        
-        return [balanced, 1 + Math.max(left[1], right[1])];
+    if (root === null) {
+        return true;
     }
-    return dfs(root)[0];
+    var balanced = Math.abs(maxHeight(root.left) - maxHeight(root.right)) <= 1;
+    return balanced && isBalanced(root.left) && isBalanced(root.right);
 };
+
+var maxHeight = (root) => {
+    if (root === null) {
+        return 0;
+    }
+    return 1 + Math.max(maxHeight(root.right), maxHeight(root.left));
+}
