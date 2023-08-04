@@ -11,47 +11,40 @@
  * @return {ListNode}
  */
 var reverseKGroup = function(head, k) {
-    // temp is the main pointer
-    var temp = head;
-    // prev follows temp
-    var prev;
-    // khead is head of current k-group
-    var khead = head;
-    // prev tail is tail of previous k-group
-    var prevTail = null;
-    while (temp !== null) {
-        khead = temp;
+    var dummy = new ListNode();
+    var r = head;
+    var prev = null;
+    var count = 0;
+    while (r !== null) {
+        var first = r;
         for (var i = 0; i < k; i++) {
-            if (temp === null) {
-                prevTail.next = khead;
-                return head;
+            if (r === null) {
+                return dummy.next;
             }
-            prev = temp;
-            temp = temp.next;
+            prev = r;
+            r = r.next;
         }
+        // at this point r is the start of the next, prev is the end of the k-group
         prev.next = null;
-        prev = khead;
-        if (khead === head) {
-            // first time
-            prevTail = head;
-            head = reverseList(head);
+        prev = reverse(first);
+        if (first === head) {
+            dummy.next = prev;
         } else {
-            khead = reverseList(khead);
-            prevTail.next = khead;
-            prevTail = prev;
+            head.next = prev;
         }
+        head = first;
+        head.next = r;
     }
-    return head;
+    return dummy.next;
 };
 
-var reverseList = (head) => {
+var reverse = (head) => {
     var prev = null;
     var curr = head;
     var next = null;
     while (curr) {
         next = curr.next;
         curr.next = prev;
-
         prev = curr;
         curr = next;
     }
