@@ -11,42 +11,37 @@
  * @return {ListNode}
  */
 var reverseKGroup = function(head, k) {
-    var dummy = new ListNode();
-    var r = head;
-    var prev = null;
-    var count = 0;
-    while (r !== null) {
-        var first = r;
-        for (var i = 0; i < k; i++) {
-            if (r === null) {
-                return dummy.next;
-            }
-            prev = r;
-            r = r.next;
+    var dummy = new ListNode(0, head);
+    var groupPrev = dummy;
+    
+    while (true) {
+        var kth = getKth(groupPrev, k);
+        if (!kth) {
+            break;
         }
-        // at this point r is the start of the next, prev is the end of the k-group
-        prev.next = null;
-        prev = reverse(first);
-        if (first === head) {
-            dummy.next = prev;
-        } else {
-            head.next = prev;
+        var groupNext = kth.next;
+        
+        var prev = kth.next;
+        var curr = groupPrev.next;
+        
+        while (curr !== groupNext) {
+            var temp = curr.next;
+            curr.next = prev;
+            prev = curr;
+            curr = temp;
         }
-        head = first;
-        head.next = r;
+        
+        temp = groupPrev.next;
+        groupPrev.next = kth;
+        groupPrev = temp;
     }
     return dummy.next;
 };
 
-var reverse = (head) => {
-    var prev = null;
-    var curr = head;
-    var next = null;
-    while (curr) {
-        next = curr.next;
-        curr.next = prev;
-        prev = curr;
-        curr = next;
+var getKth = (curr, k) => {
+    while (curr && k > 0) {
+        curr = curr.next;
+        k--;
     }
-    return prev;
+    return curr;
 }
