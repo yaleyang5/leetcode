@@ -14,18 +14,18 @@ var goodNodes = function(root) {
     if (root === null) {
         return 0;
     }
-    var result = 0;
     var dfs = (root, max) => {
+        var result = 0;
         if (root === null) {
-            return null;
+            return 0;
         }
         if (root.val >= max) {
-            result++;
+            result = 1;
             max = Math.max(max, root.val);
         }
-        dfs(root.left, max);
-        dfs(root.right, max);
+        result += dfs(root.left, max);
+        result += dfs(root.right, max);
+        return result;
     }
-    dfs(root, root.val);
-    return result;
+    return dfs(root, root.val);
 };
