@@ -11,13 +11,17 @@
  * @return {boolean}
  */
 var hasCycle = function(head) {
-    var nodes = new WeakMap();
-    while (head !== null) {
-        if (nodes.has(head)) {
+    if (head === null) {
+        return false;
+    }
+    var slow = head;
+    var fast = head.next;
+    while (fast !== null && fast.next !== null && fast.next.next !== null) {
+        if (slow == fast) {
             return true;
         }
-        nodes.set(head, 1);
-        head = head.next;
+        slow = slow.next;
+        fast = fast.next.next;
     }
     return false;
 };
