@@ -21,5 +21,4 @@ var findDuplicate = function(nums) {
             return slow;
         }
     }
-    return -1;
 };
