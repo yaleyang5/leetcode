@@ -14,29 +14,27 @@ var levelOrder = function(root) {
     if (root === null || root === undefined) {
         return [];
     }
-    var result = [];
-    var level = [[root.val, root]];
-    var newLevel = level.slice();
-    while (level.length > 0) {
-        var temp = [];
-        for (var i = 0; i < level.length; i++) {
-            temp.push(level[i][0]);
-        }
-        result.push(temp);
-        newLevel = [];
-        for (var i = 0; i < level.length; i++) {
-            if (level[i][1] !== null && level[i][1] !== undefined) {
-                var left = level[i][1].left;
-                var right = level[i][1].right;
-                if (left) {
-                    newLevel.push([left.val, left]);
-                } 
-                if (right) {
-                    newLevel.push([right.val, right]);
-                }
+    var result = [[root.val]];
+    var q = [root];
+    while (q.length > 0) {
+        var level = [];
+        var len = q.length;
+        for (var i = 0; i < len; i++) {
+            if (q[i].left) {
+                q.push(q[i].left);
+                level.push(q[i].left.val);
+            }
+            if (q[i].right) {
+                q.push(q[i].right);
+                level.push(q[i].right.val);
             }
         }
-        level = newLevel;
+        for (var i = 0; i < len; i++) {
+            q.shift();
+        }
+        if (level.length > 0) {
+            result.push(level);
+        }
     }
     return result;
 };
