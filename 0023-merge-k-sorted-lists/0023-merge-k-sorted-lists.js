@@ -10,33 +10,57 @@
  * @return {ListNode}
  */
 var mergeKLists = function(lists) {
-    // brute force
-    var arr = [];
-    if (lists.length === 0) {
+    if (lists === undefined || lists.length === 0) {
         return null;
     }
-    // console.log('made it before iterating through lists');
-    for (var i = 0; i < lists.length; i++) {
-        var temp = lists[i];
-        while (temp !== null) {
-            arr.push([temp, i]);
-            temp = temp.next;
+    while (lists.length > 1) {
+        var merged = [];
+        
+        for (var i = 0; i < lists.length; i += 2) {
+            var l1 = lists[i];
+            var l2 = i + 1 >= lists.length ? null : lists[i + 1];
+            merged.push(mergeTwoLists(l1, l2));
+        }
+        lists = merged;
+    }
+    return lists[0];
+};
+
+var mergeTwoLists = (l1, l2) => {
+    if (l1 === null && l2 === null) {
+        return null;
+    } else if (l1 === null) {
+        return l2;
+    } else if (l2 === null) {
+        return l1;
+    }
+    var dummy;
+    var temp;
+    if (l1.val > l2.val) {
+        dummy = new ListNode(0, l2);
+        temp = l2;
+        l2 = l2.next;
+    } else {
+        dummy = new ListNode(0, l1);
+        temp = l1;
+        l1 = l1.next;
+    }
+    while (l1 !== null && l2 !== null) {
+        if (l1.val > l2.val) {
+            temp.next = l2;
+            temp = l2;
+            l2 = l2.next;
+        } else {
+            temp.next = l1;
+            temp = l1;
+            l1 = l1.next;
         }
     }
-    // console.log('made it after iterating through lists');
-    if (arr.length === 0) {
-        return null;
+    if (l1 === null) {
+        temp.next = l2;
     }
-    if (arr.length === 1) {
-        return arr[0][0];
+    if (l2 === null) {
+        temp.next = l1;
     }
-    // console.log('made it before sorting');
-    arr.sort((a, b) => (a[0].val - b[0].val === 0 ? a[1] - b[1] : a[0].val - b[0].val));
-    // console.log('made it after sorting', arr);
-    var dummy = new ListNode(0, arr[0][0]);
-    for (var i = 0; i < arr.length - 1; i++) {
-        arr[i][0].next = arr[i + 1][0];
-    }
-    arr[arr.length - 1][0].next = null;
     return dummy.next;
-};
+}
