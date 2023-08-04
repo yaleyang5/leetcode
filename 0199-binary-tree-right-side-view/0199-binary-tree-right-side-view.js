@@ -15,17 +15,17 @@ var rightSideView = function(root) {
     var q = [root];
     while (q.length > 0) {
         var len = q.length;
-        var level = [];
+        var right = null;
         for (var i = 0; i < len; i++) {
             var node = q.shift();
             if (node) {
                 q.push(node.left);
                 q.push(node.right);
-                level.push(node.val);
+                right = node;
             }
         }
-        if (level.length > 0) {
-            result.push(level[level.length - 1]);
+        if (right) {
+            result.push(right.val);
         }
     }    
     return result;
