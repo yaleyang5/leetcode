@@ -13,7 +13,7 @@
  * @return {TreeNode}
  */
 var lowestCommonAncestor = function(root, p, q) {
-    console.log(root)
+    // console.log(root)
     if (root === null) {
         return root;
     }
