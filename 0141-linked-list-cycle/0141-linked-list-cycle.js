@@ -11,24 +11,13 @@
  * @return {boolean}
  */
 var hasCycle = function(head) {
-    // set with vals as keys, nodes as values
-    var nodes = {};
-    var curr = head;
-    // var counter = 0;
-    while (curr !== null) {
-        // console.log(curr, nodes[curr.val]);
-        if (nodes[curr.val] === undefined) {
-            // console.log(curr.next.val, nodes);
-            nodes[curr.val] = [];
-        } 
-        if (nodes[curr.val].indexOf(curr) !== -1) {
+    var nodes = new WeakMap();
+    while (head !== null) {
+        if (nodes.has(head)) {
             return true;
         }
-        nodes[curr.val].push(curr);
-        curr = curr.next;
-        // if (counter++ === 20) {
-        //     break;
-        // } 
+        nodes.set(head, 1);
+        head = head.next;
     }
     return false;
 };
