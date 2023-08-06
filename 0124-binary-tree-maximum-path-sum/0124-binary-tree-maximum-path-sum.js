@@ -11,22 +11,18 @@
  * @return {number}
  */
 var maxPathSum = function(root) {
-    var res = root.val;
-    
     var dfs = (root) => {
         if (root === null) {
-            return 0;
+            return [0, -Number.MAX_SAFE_INTEGER];
         }
-        var left = dfs(root.left);
-        var right = dfs(root.right);
-        left = left < 0 ? 0 : left;
-        right = right < 0 ? 0 : right;
-        res = Math.max(res, root.val + left + right);
+        var [left, leftSplit] = dfs(root.left);
+        left = Math.max(0, left);
         
-        return root.val + Math.max(left, right);
+        var [right, rightSplit] = dfs(root.right);
+        right = Math.max(0, right);
+        
+        var result = Math.max(leftSplit, rightSplit, root.val + left + right);
+        return [root.val + Math.max(left, right), result]
     }
-    
-    dfs(root);
-    
-    return res;
+    return dfs(root)[1];
 };
