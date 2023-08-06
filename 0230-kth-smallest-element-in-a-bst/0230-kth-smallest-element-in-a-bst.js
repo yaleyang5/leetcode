@@ -12,16 +12,20 @@
  * @return {number}
  */
 var kthSmallest = function(root, k) {
-    // search inorder, return(k - 1)th index
-    var inOrder = (root) => {
-        if (root === null) {
-            return [];
+    var n = 0;
+    var stack = [];
+    var curr = root;
+    while (curr !== null || stack.length !== 0) {
+        while (curr !== null) {
+            stack.push(curr);
+            curr = curr.left;
         }
-        if (root.left === null && root.right === null) {
-            return [root.val];
+        curr = stack.pop()
+        n++;
+        if (n === k) {
+            return curr.val;
         }
-        return inOrder(root.left).concat(root.val).concat(inOrder(root.right));
+        curr = curr.right;
     }
-    var arr = inOrder(root);
-    return arr[k - 1];
+    return 'should never reach here';
 };
