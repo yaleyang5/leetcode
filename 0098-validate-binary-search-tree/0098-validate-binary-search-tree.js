@@ -18,10 +18,10 @@ var isValidBST = function(root) {
         return true;
     }
     if (root.left === null) {
-        return root.val < root.right.val && isGreater(root.right, root.val) && isValidBST(root.right);
+        return isGreater(root.right, root.val) && isValidBST(root.right);
     }
     if (root.right === null) {
-        return root.val > root.left.val && isLess(root.left, root.val) && isValidBST(root.left);
+        return isLess(root.left, root.val) && isValidBST(root.left);
     }
     return isValidBST(root.left) && isValidBST(root.right) && isLess(root.left, root.val) && isGreater(root.right, root.val);
 };
