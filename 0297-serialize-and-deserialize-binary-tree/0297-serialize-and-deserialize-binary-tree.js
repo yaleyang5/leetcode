@@ -13,8 +13,7 @@
  * @return {string}
  */
 var serialize = function(root) {
-    // we can use inorder and preorder traversal
-    return JSON.stringify(root);
+    return JSON.stringify(root);    
 };
 
 /**
@@ -24,7 +23,7 @@ var serialize = function(root) {
  * @return {TreeNode}
  */
 var deserialize = function(data) {
-    return JSON.parse(data); 
+    return JSON.parse(data);
 };
 
 /**
