@@ -11,10 +11,7 @@
  * @return {boolean}
  */
 var isValidBST = function(root) {
-    if (root === null) {
-        return true;
-    }
-    if (root.left === null && root.right === null) {
+    if (root === null || (root.left === null && root.right === null)) {
         return true;
     }
     if (root.left === null) {
