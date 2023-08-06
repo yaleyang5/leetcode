@@ -12,12 +12,23 @@
  * @return {TreeNode}
  */
 var buildTree = function(preorder, inorder) {
-    if (inorder.length === 0 || preorder.length === 0) {
+    var inorderIndexes = {};
+    for (var i = 0; i < inorder.length; i++) {
+        inorderIndexes[inorder[i]] = i;
+    }
+    
+    return build(preorder, inorderIndexes, 0, inorder.length - 1);
+};
+
+var build = (preorder, inorderIndexes, start, end) => {    
+    if (start > end) {
         return null;
     }
-    var index = inorder.indexOf(preorder[0]);
-    var root = new TreeNode(preorder[0]);
-    root.left = buildTree(preorder.slice(1, index + 1), inorder.slice(0, index));
-    root.right = buildTree(preorder.slice(index + 1, preorder.length), inorder.slice(index + 1, inorder.length));
+    var val = preorder.shift(); 
+    var root = new TreeNode(val);
+    
+    root.left = build(preorder, inorderIndexes, start, inorderIndexes[val] - 1);
+    root.right = build(preorder, inorderIndexes, inorderIndexes[val] + 1, end);
+    
     return root;
-};
+}
