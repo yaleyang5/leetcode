@@ -13,7 +13,19 @@
  * @return {string}
  */
 var serialize = function(root) {
-    return JSON.stringify(root);    
+    var result = [];
+    var dfs = (root) => {
+        if (root === null) {
+            result.push('N');
+            return;
+        }
+        result.push(root.val);
+        dfs(root.left);
+        dfs(root.right);
+        return;
+    }
+    dfs(root);
+    return result.join(',');
 };
 
 /**
@@ -23,7 +35,24 @@ var serialize = function(root) {
  * @return {TreeNode}
  */
 var deserialize = function(data) {
-    return JSON.parse(data);
+    // console.log(data);
+    data = data.split(',');
+    if (data.length === 0) {
+        return null;
+    }
+    var i = 0;
+    var dfs = () => {
+        if (data[i] === 'N') {
+            i ++;
+            return null;
+        }
+        var node = new TreeNode(Number(data[i]));
+        i ++;
+        node.left = dfs();
+        node.right = dfs();
+        return node;
+    }
+    return dfs();
 };
 
 /**
