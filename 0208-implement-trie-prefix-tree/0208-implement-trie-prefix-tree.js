@@ -25,12 +25,9 @@ Trie.prototype.search = function(word) {
  * @return {boolean}
  */
 Trie.prototype.startsWith = function(prefix) {
-    for (var i = 0; i < this.trie.length; i++) {
-        if (this.trie[i].indexOf(prefix) === 0) {
-            return true;
-        }
-    }
-    return false;
+    var len = prefix.length;
+    var startsWithPrefix = (word) => (prefix === word.substring(0, len));
+    return this.trie.findIndex(startsWithPrefix) !== -1;
 };
 
 /** 
