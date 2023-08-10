@@ -1,7 +1,13 @@
+class TrieNode {
+    constructor(val) {
+        this.val = val === undefined ? 0 : val;
+        this.end = false;
+        this.next = {};
+    }
+};
 
 var Trie = function() {
-    this.trie = [];
-    this.set = {};
+    this.trie = new TrieNode();
     return this;
 };
 
@@ -10,8 +16,15 @@ var Trie = function() {
  * @return {void}
  */
 Trie.prototype.insert = function(word) {
-    this.trie.push(word);
-    this.set[word] = 1;
+    var temp = this.trie;
+    for (var i = 0; i < word.length; i++) {
+        var char = word[i];
+        if (temp.next[char] === undefined) {
+            temp.next[char] = new TrieNode(char);
+        }
+        temp = temp.next[char];
+    }
+    temp.end = true;
 };
 
 /** 
@@ -19,7 +32,15 @@ Trie.prototype.insert = function(word) {
  * @return {boolean}
  */
 Trie.prototype.search = function(word) {
-    return this.set[word] !== undefined;
+    var temp = this.trie;
+    for (var i = 0; i < word.length; i++) {
+        var char = word[i]
+        if (temp.next[char] === undefined) {
+            return false;
+        }
+        temp = temp.next[char];
+    }
+    return temp.end;
 };
 
 /** 
@@ -27,9 +48,15 @@ Trie.prototype.search = function(word) {
  * @return {boolean}
  */
 Trie.prototype.startsWith = function(prefix) {
-    var len = prefix.length;
-    var startsWithPrefix = (word) => (prefix === word.substring(0, len));
-    return this.trie.findIndex(startsWithPrefix) !== -1;
+    var temp = this.trie;
+    for (var i = 0; i < prefix.length; i++) {
+        var char = prefix[i]
+        if (temp.next[char] === undefined) {
+            return false;
+        }
+        temp = temp.next[char];
+    }
+    return true;
 };
 
 /** 
