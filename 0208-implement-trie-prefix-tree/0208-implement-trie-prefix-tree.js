@@ -1,6 +1,5 @@
 class TrieNode {
     constructor(val) {
-        this.val = val === undefined ? 0 : val;
         this.end = false;
         this.next = {};
     }
