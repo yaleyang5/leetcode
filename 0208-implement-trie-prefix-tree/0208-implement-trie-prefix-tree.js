@@ -1,6 +1,7 @@
 
 var Trie = function() {
     this.trie = [];
+    this.set = {};
     return this;
 };
 
@@ -10,6 +11,7 @@ var Trie = function() {
  */
 Trie.prototype.insert = function(word) {
     this.trie.push(word);
+    this.set[word] = 1;
 };
 
 /** 
@@ -17,7 +19,7 @@ Trie.prototype.insert = function(word) {
  * @return {boolean}
  */
 Trie.prototype.search = function(word) {
-    return this.trie.includes(word);
+    return this.set[word] !== undefined;
 };
 
 /** 
