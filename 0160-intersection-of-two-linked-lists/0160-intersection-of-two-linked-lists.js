@@ -12,18 +12,32 @@
  * @return {ListNode}
  */
 var getIntersectionNode = function(headA, headB) {
-    var set = new Set();
-    var temp = headA;
-    while (temp !== null) {
-        set.add(temp);
-        temp = temp.next;
-    }
-    temp = headB;
-    while (temp !== null) {
-        if (set.has(temp)) {
-            return temp;
+    var setA = new Set();
+    var setB = new Set();
+    while (headA !== null && headB !== null) {
+        setA.add(headA);
+        setB.add(headB);
+        if (setA.has(headB) || setB.has(headA)) {
+            return setA.has(headB) ? headB : headA;
         }
-        temp = temp.next;
+        headA = headA.next;
+        headB = headB.next;
+    }
+    if (headB === null) {
+        while (headA !== null) {
+            if (setB.has(headA)) {
+                return headA;
+            }
+            headA = headA.next;
+        }
+    }
+    if (headA === null) {
+        while (headB !== null) {
+            if (setA.has(headB)) {
+                return headB;
+            }
+            headB = headB.next;
+        }
     }
     return null;
 };
