@@ -20,9 +20,9 @@ var leastInterval = function(tasks, n) {
         if (queue.length > 0 && queue[0][1] === time) {
             maxPQ.enqueue(queue.shift()[0]);
         }
-        // if there is something in PQ, pop out largest
         // increment time
         time++;
+        // if there is something in PQ, pop out largest
         if (maxPQ.size() > 0) {
             // pop the largest #, decrementing by 1
             var temp = maxPQ.dequeue().element - 1;
