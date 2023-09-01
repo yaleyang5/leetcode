@@ -1,6 +1,6 @@
 
 var Twitter = function() {
-    this.maxPQ = new MaxPriorityQueue({priority: (tweet) => tweet.time});
+    this.maxPQ = new MaxPriorityQueue({priority: ({time}) => time});
     this.following = {};
     this.time = 0;
     return this;
@@ -26,9 +26,9 @@ Twitter.prototype.getNewsFeed = function(userId) {
     }
     var res = [];
     var count = 10;
-    this.maxPQ.toArray().forEach((tweet) => {
-        if ((userId === tweet.element.userId || this.following[userId][tweet.element.userId] === true) && count > 0) {
-            res.push(tweet.element.tweetId);
+    this.maxPQ.toArray().forEach(({element}) => {
+        if ((userId === element.userId || this.following[userId][element.userId]) && count > 0) {
+            res.push(element.tweetId);
             count--;
         }
     })
