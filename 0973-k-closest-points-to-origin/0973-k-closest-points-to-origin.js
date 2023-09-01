@@ -4,15 +4,8 @@
  * @return {number[][]}
  */
 var kClosest = function(points, k) {
-    var maxQueue = new MinPriorityQueue();
-    
-    points.forEach((point) => maxQueue.enqueue(point, Math.sqrt((point[0] * point[0] + point[1] * point[1]))));
-    
     var res = [];
+    points.sort((a, b) => (Math.pow(a[0], 2) + Math.pow(a[1], 2)) - (Math.pow(b[0], 2) + Math.pow(b[1], 2)) );
     
-    for (var i = 0; i < k; i++) {
-        res.push(maxQueue.dequeue().element);
-    }
-    
-    return res;
+    return points.slice(0, k);
 };
