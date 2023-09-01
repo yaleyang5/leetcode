@@ -4,12 +4,32 @@
  * @return {number}
  */
 var findKthLargest = function(nums, k) {
-    var maxPQ = new MaxPriorityQueue();
-    nums.forEach((num) => maxPQ.enqueue(num));
-    for (var i = 0; i < k - 1; i++) {
-        maxPQ.dequeue();
+    k = nums.length - k;
+    
+    var quickSelect = (l, r) => {
+        var pivot = nums[r];
+        var p = l;
+        for (var i = l; i < r; i++) {
+            if (nums[i] <= pivot) {
+                var temp = nums[p];
+                nums[p] = nums[i];
+                nums[i] = temp;
+                p++;
+            }
+        }
+        var t = nums[p];
+        nums[p] = nums[r];
+        nums[r] = t;
+        if (p > k) {
+            return quickSelect(l, p - 1);
+        } else if (p < k) {
+            return quickSelect(p + 1, r);
+        } else {
+            return nums[p];
+        }
     }
-    return maxPQ.front().element;
+    
+    return quickSelect(0, nums.length - 1);
 };
     
     
