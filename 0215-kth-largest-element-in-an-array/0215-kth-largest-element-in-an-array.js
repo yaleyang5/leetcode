@@ -4,33 +4,17 @@
  * @return {number}
  */
 var findKthLargest = function(nums, k) {
-    k = nums.length - k;
+    var minPQ = new MinPriorityQueue();
     
-    var quickSelect = (l, r) => {
-        var pivot = nums[r];
-        var p = l;
-        for (var i = l; i < r; i++) {
-            if (nums[i] <= pivot) {
-                var temp = nums[p];
-                nums[p] = nums[i];
-                nums[i] = temp;
-                p++;
-            }
+    for (var i = 0; i < nums.length; i++) {
+        if (minPQ.size() < k || nums[i] > minPQ.front().element) {
+            minPQ.enqueue(nums[i]);
         }
-        var t = nums[p];
-        nums[p] = nums[r];
-        nums[r] = t;
-        if (p > k) {
-            return quickSelect(l, p - 1);
-        } else if (p < k) {
-            return quickSelect(p + 1, r);
-        } else {
-            return nums[p];
+        
+        if (minPQ.size() > k) {
+            minPQ.dequeue();
         }
     }
     
-    return quickSelect(0, nums.length - 1);
+    return minPQ.front().element;
 };
-    
-    
-    
