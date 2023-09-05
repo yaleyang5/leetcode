@@ -5,21 +5,18 @@
 var subsets = function(nums) {
     var res = [];
     
-    var subset = [];
-    // i is index
-    var dfs = (i) => {
+    var dfs = (i, curr) => {
         if (i >= nums.length) {
-            res.push(subset.slice());
+            res.push(curr.slice());
             return;
         }
-        // subset WITH nums[i]
-        subset.push(nums[i]);
-        dfs(i + 1);
+        curr.push(nums[i]);
+        dfs(i + 1, curr);
         
-        // subset WITHOUT nums[i]
-        subset.pop();
-        dfs(i + 1);
+        curr.pop();
+        dfs(i + 1, curr);
     }
-    dfs(0);
+    dfs(0, []);
+    
     return res;
 };
