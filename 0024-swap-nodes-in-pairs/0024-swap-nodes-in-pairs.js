@@ -19,7 +19,8 @@ var swapPairs = function(head) {
     while (curr !== null) {
         var next = curr.next;
         if (next === null) {
-            return result.next;
+            prev.next = curr;
+            break;
         }
         curr.next = next.next;
         next.next = curr;
