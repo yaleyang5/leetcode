@@ -14,22 +14,20 @@ var swapPairs = function(head) {
         return head === null ? null : head;
     }
     var prev = new ListNode(0, head);
-    var temp = head;
-    var next = head.next;
-    head = next;
-    while (temp !== null && next !== null && next.next !== null) {
+    var result = prev;
+    var curr = head;
+    while (curr !== null) {
+        var next = curr.next;
+        if (next === null) {
+            prev.next = curr;
+            break;
+        }
+        curr.next = next.next;
+        next.next = curr;
         prev.next = next;
-        temp.next = next.next;
-        next.next = temp;
-        prev = temp;
-        temp = temp.next;
-        next = temp.next;
+        prev = curr;
+        curr = curr.next;
     }
-    prev.next = temp;
-    if (next !== null) {
-        prev.next = next;
-        next.next = temp;
-    }
-    temp.next = null;
-    return head;
+    
+    return result.next;
 };
