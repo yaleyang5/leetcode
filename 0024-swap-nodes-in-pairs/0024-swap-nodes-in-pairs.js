@@ -10,31 +10,26 @@
  * @return {ListNode}
  */
 var swapPairs = function(head) {
-    if (head === null) {
-        return null;
+    if (head === null || head.next === null) {
+        return head === null ? null : head;
     }
-    var temp = swapPair(head, head.next);
-    head = temp[0];
-    var prev = temp[1];
-    temp = temp[1] === null ? null : temp[1].next;
-    while (temp !== null) {
-        var curr = swapPair(temp, temp.next);
-        // console.log(prev, curr, temp);
-        temp = curr[1] === null ? null : curr[1].next;
-        prev.next = curr[0];
-        prev = curr[1];
+    var prev = new ListNode(0, head);
+    var temp = head;
+    var next = head.next;
+    head = next;
+    while (temp !== null && next !== null && next.next !== null) {
+        prev.next = next;
+        temp.next = next.next;
+        next.next = temp;
+        prev = temp;
+        temp = temp.next;
+        next = temp.next;
     }
+    prev.next = temp;
+    if (next !== null) {
+        prev.next = next;
+        next.next = temp;
+    }
+    temp.next = null;
     return head;
 };
-
-var swapPair = (first, second) => {
-    if (first === null) {
-        return [null, null];
-    }
-    if (second === null) {
-        return [first, null];
-    }
-    first.next = second.next;
-    second.next = first;
-    return [second, first];
-}
