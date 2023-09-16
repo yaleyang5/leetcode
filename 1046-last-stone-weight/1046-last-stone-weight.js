@@ -2,36 +2,20 @@
  * @param {number[]} stones
  * @return {number}
  */
-/*
-.enqueue
-.front
-.back
-.dequeue
-.isEmpty
-.size
-.toArray
-.clear
-*/
-
 var lastStoneWeight = function(stones) {
-    var queue = new MaxPriorityQueue();
-    stones.forEach((stone) => queue.enqueue(stone));
-    
-    while (queue.size() > 0) {
-        if (queue.size() === 1) {
-            break;
+    var MPQ = new MaxPriorityQueue();
+    for (var stone of stones) {
+        MPQ.enqueue(stone);
+    }
+    while (MPQ.size() > 1) {
+        var first = MPQ.dequeue().element;
+        var second = MPQ.dequeue().element;
+        if (first === second) {
+            continue;
         }
-        var y = queue.dequeue().element;
-        var x = queue.dequeue().element;
-        if (x !== y) {
-            queue.enqueue(y - x);
+        if (first > second) {
+            MPQ.enqueue(first - second);
         }
     }
-    return queue.isEmpty() ? 0 : queue.front().element;
+    return MPQ.isEmpty() ? 0 : MPQ.front().element;
 };
-
-
-
-
-
-
