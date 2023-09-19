@@ -5,24 +5,21 @@
  */
 var combinationSum = function(candidates, target) {
     var res = [];
-    
-    var dfs = (i, curr, total) => {
-        if (i === candidates.length || total > target) {
-            return;
-        }
+    var dfs = (i, total, subset) => {
         if (total === target) {
-            res.push(curr.slice());
+            res.push(subset.slice());
             return;
         }
-        
-        
-        curr.push(candidates[i]);
-        dfs(i, curr, total + candidates[i]);
-        
-        curr.pop();
-        dfs(i + 1, curr, total);
+        if (total > target || i === candidates.length) {
+            return;
+        }
+        // can add as many as you want of i
+        subset.push(candidates[i]);
+        dfs(i, total + candidates[i], subset);
+        // can NEVER add i again
+        subset.pop();
+        dfs(i + 1, total, subset);
     }
-    dfs(0, [], 0);
-    
+    dfs(0, 0, []);
     return res;
 };
