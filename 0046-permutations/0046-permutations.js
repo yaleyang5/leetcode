@@ -3,18 +3,19 @@
  * @return {number[][]}
  */
 var permute = function(nums) {
-    if (nums === undefined || nums.length === 0) {
-        return [];
-    }
-    if (nums.length === 1) {
-        return [[nums[0]]];
-    }
     var result = [];
+    if (nums.length === 1) {
+        return [[nums[0]]]
+    }
+    
     for (var i = 0; i < nums.length; i++) {
-        var perms = permute(nums.slice(0, i).concat(nums.slice(i + 1, nums.length)));
-        for (var j = 0; j < perms.length; j++) {
-            result.push([nums[i]].concat(perms[j].slice()));
+        var n = nums.shift();
+        var perms = permute(nums);
+        for (var perm of perms) {
+            perm.push(n);
         }
+        result = result.concat(perms);
+        nums.push(n);
     }
     return result;
 };
