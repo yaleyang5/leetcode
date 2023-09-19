@@ -16,12 +16,12 @@ var subsetsWithDup = function(nums) {
         // all subsets with nums[i];
         subset.push(nums[i]);
         dfs(i + 1, subset);
+        subset.pop();
         // all subsets without nums[i]
-        var temp = subset.pop();
-        while (temp === nums[i]) {
+        while (i + 1 < nums.length && nums[i] === nums[i + 1]) {
             i++;
         }
-        dfs(i, subset);
+        dfs(i + 1, subset);
     }
     dfs(0, []);
     return res;
