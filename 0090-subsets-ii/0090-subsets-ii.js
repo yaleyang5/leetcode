@@ -8,23 +8,21 @@ var subsetsWithDup = function(nums) {
     // when i === nums.length, push slice to res and return
     var res = [];
     nums.sort((a,b) => a-b);
-    var dfs = (i, set, subset) => {
+    var dfs = (i, subset) => {
         if (i === nums.length) {
             res.push(subset.slice());
             return;
         }
-        set.add(nums[i]);
-        // add element without restriction if set is empty
+        // all subsets with nums[i];
         subset.push(nums[i]);
-        var temp = new Set(set);
-        dfs(i + 1, set, subset);
-        // continue until reaching diff element
-        subset.pop();
-        while (temp.has(nums[i])) {
+        dfs(i + 1, subset);
+        // all subsets without nums[i]
+        var temp = subset.pop();
+        while (temp === nums[i]) {
             i++;
         }
-        dfs(i, temp, subset);
+        dfs(i, subset);
     }
-    dfs(0, new Set(), []);
+    dfs(0, []);
     return res;
 };
