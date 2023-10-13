@@ -4,25 +4,23 @@
  */
 var partition = function(s) {
     var res = [];
-    var dfs = (i, n, partition) => {
-        // console.log(i, n);
-        if (checkPalin(s.substring(i, i + n))) {
-            partition.push(s.substring(i, i + n));
-        } else {
+    var partition = [];
+    
+    var dfs = (i) => {
+        // console.log(i);
+        if (i >= s.length) {
+            res.push(partition.slice());
             return;
         }
-        // console.log(partition);
-        for (var j = 1; j < s.length - i; j++) {
-            dfs(i + n, j, partition.slice());
+        for (var j = i; j < s.length; j++) {
+            if (checkPalin(s.substring(i, j + 1))) {
+                partition.push(s.substring(i, j + 1));
+                dfs(j + 1);
+                partition.pop();
+            }
         }
-        if (i + n === s.length) {
-            res.push(partition.slice());
-        }
-        return;
     }
-    for (var i = 1; i <= s.length; i++) {
-        dfs(0, i, []);
-    }
+    dfs(0);
     return res;
 };
 
