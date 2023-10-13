@@ -3,19 +3,21 @@
  * @return {number}
  */
 var lastStoneWeight = function(stones) {
-    var MPQ = new MaxPriorityQueue();
-    for (var stone of stones) {
-        MPQ.enqueue(stone);
+    var max = new MaxPriorityQueue();
+    
+    for (var i = 0; i < stones.length; i++) {
+        max.enqueue(stones[i]);
     }
-    while (MPQ.size() > 1) {
-        var first = MPQ.dequeue().element;
-        var second = MPQ.dequeue().element;
-        if (first === second) {
-            continue;
+    while (max.size() > 0) {
+        if (max.size() === 1) {
+            return max.front().element;
         }
-        if (first > second) {
-            MPQ.enqueue(first - second);
+        var first = max.dequeue().element;
+        var second = max.dequeue().element;
+        
+        if (first !== second) {
+            max.enqueue(Math.abs(first - second));
         }
     }
-    return MPQ.isEmpty() ? 0 : MPQ.front().element;
+    return 0;
 };
