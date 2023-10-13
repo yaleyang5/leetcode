@@ -16,24 +16,19 @@ var letterCombinations = function(digits) {
     
     var res = [];
     
-    var combo = "";
-    
-    var dfs = (i) => {
+    var dfs = (i, combo) => {
         if (i === digits.length) {
-            if (combo.length > 0) {
-                res.push(combo.slice());
-            }
+            res.push(combo.slice());
             return;
         }
         var str = map[digits[i]];
         for (var j = 0; j < str.length; j++) {
-            var temp = combo;
-            combo += str[j];
-            dfs(i + 1);
-            combo = temp;
+            dfs(i + 1, combo + str[j]);
         }
     }
-    dfs(0);
+    if (digits.length > 0) {
+        dfs(0, "");
+    }
     
     return res;
 };
