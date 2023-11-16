@@ -3,49 +3,40 @@
  * @return {number}
  */
 var orangesRotting = function(grid) {
-    // iterate through grid and mark where every fresh orange is
-    var freshOranges = new Set();
-    for (var x = 0; x < grid.length; x++) {
-        for (var y = 0; y < grid[0].length; y++) {
-            if (grid[x][y] === 1) {
-                freshOranges.add(String(x) + ',' + String(y));
+    var q = [];
+    var time = 0;
+    var fresh = 0;
+    
+    var [rows, cols] = [grid.length, grid[0].length];
+    
+    for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+            if (grid[r][c] === 1) {
+                fresh++;
+            }
+            if (grid[r][c] === 2) {
+                q.push([r, c]);
             }
         }
     }
-    var minutes = 0;
-    var rotOranges = (r, c) => {
-        if (r < 0 || c < 0 || r >= grid.length || c >= grid[0].length || grid[r][c] === 0 || grid[r][c] === 2 || grid[r][c] === 3) {
-            return;
-        } else {
-            freshOranges.delete(String(r) + ',' + String(c))
-            grid[r][c] = 3;
-        }
-    }
-    var count = freshOranges.size;
-    // iterate constantly until freshOranges.size === 0
-    while (count >= 0 && freshOranges.size > 0) {
-        // turn freshly rotten oranges into 3
-        for (var x = 0; x < grid.length; x++) {
-            for (var y = 0; y < grid[0].length; y++) {
-                if (grid[x][y] === 2) {
-                    rotOranges(x + 1, y);
-                    rotOranges(x - 1, y);
-                    rotOranges(x, y + 1);
-                    rotOranges(x, y - 1);
+    
+    var directions = [[0, 1], [0, -1], [1, 0], [-1, 0]];
+    
+    while (q.length > 0 && fresh > 0) {
+        var len = q.length;
+        for (var i = 0; i < len; i++) {
+            var [r, c] = q.shift();
+            for (var [dr, dc] of directions) {
+                var [row, col] = [dr + r, dc + c];
+                if (row < 0 || row === rows || col < 0 || col === cols || grid[row][col] !== 1) {
+                    continue;
                 }
+                grid[row][col] = 2;
+                q.push([row, col]);
+                fresh--;
             }
         }
-        // change 3s to 2s
-        for (var x = 0; x < grid.length; x++) {
-            for (var y = 0; y < grid[0].length; y++) {
-                if (grid[x][y] === 3) {
-                    grid[x][y] = 2;
-                }
-            }
-        }
-        minutes++;
-        count--;
+        time++;
     }
-    return count < 0 ? -1 : minutes;
+    return fresh === 0 ? time : -1;
 };
-
