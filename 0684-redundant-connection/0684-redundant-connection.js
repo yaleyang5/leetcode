@@ -3,57 +3,43 @@
  * @return {number[]}
  */
 var findRedundantConnection = function(edges) {
-    // first build the tree
-    // go backwards in edges, seeing if that edge can be removed
-    var tree = {};
-    for (var [a, b] of edges) {
-        // console.log(a, b);
-        if (tree[a] === undefined) {
-            tree[a] = [];
-        }
-        if (tree[b] === undefined) {
-            tree[b] = [];
-        }
-        tree[a].push(b);
-        tree[b].push(a);
+    // union find
+    var par = new Array(edges.length + 1);
+    for (var i = 0; i < par.length; i++) {
+        par[i] = i;
     }
-    // console.log(tree);
-    var size = Object.keys(tree).length;
-    var round = 1;
-    var visited = {};
-    var remove = (node) => {
-        // console.log(node, round);
-        for (var i = 1; i <= size; i++) {
-            var index = tree[i].indexOf(node);
-            // console.log(tree[i], index);
-            if (index !== -1 && visited[i] !== round) {
-                tree[node].splice(tree[node].indexOf(i), 1);
-                tree[i].splice(index, 1);
-                visited[node] = round;
-            }
+    var rank = new Array(edges.length + 1);
+    rank.fill(1);
+    // console.log(par, rank);
+    var find = (node) => {
+        var p = par[node];
+        while (p !== par[p]) {
+            par[p] = par[par[p]];
+            p = par[p];
+        }
+        return p;
+    }
+    
+    var union = (n1, n2) => {
+        var [p1, p2] = [find(n1), find(n2)];
+        
+        if (p1 === p2) {
+            return false;
+        }
+        
+        if (rank[p1] > rank[p2]) {
+            par[p2] = p1;
+            rank[p1] += rank[p2];
+        } else {
+            par[p1] = p2;
+            rank[p2] += rank[p1];
+        }
+        return true;
+    }
+    
+    for (var [n1, n2] of edges) {
+        if (!union(n1, n2)) {
+            return [n1, n2];
         }
     }
-    // loop, removing all edges with 1 connection, keep going for now
-    var removed = false;
-    while (round <= size) {
-        // console.log(tree);
-        for (var key of Object.keys(tree)) {
-            if (tree[key].length === 1) {
-                remove(Number(key));
-                removed = true;
-            }
-        }
-        if (!removed) {
-            for (var i = edges.length - 1; i >= 0; i--) {
-                var [a, b] = edges[i];
-                if (tree[a].length > 1 && tree[b].length > 1) {
-                    return edges[i];
-                }
-            }
-            break;
-        }
-        removed = false;
-        round++;
-    }
-    return edges[edges.length - 1];
 };
