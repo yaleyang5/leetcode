@@ -6,7 +6,6 @@ var threeSum = function(nums) {
     nums = nums.sort((a, b) => a - b);
     // every combo (binary search)
     var result = [];
-    var repeats = {};
     
     var binarySearch = (start, target) => {
         var end = nums.length - 1;
@@ -30,13 +29,15 @@ var threeSum = function(nums) {
             var sum = first + second;
             var k = binarySearch(j + 1, -sum);
             var str = String(first) + "," + String(second) + "," + String(nums[k]);
-            if (k !== -1 && repeats[str] !== 1) {
+            if (k !== -1) {
                 result.push([first, second, nums[k]]);
-                repeats[str] = 1;
             }
             while (j + 1 < nums.length && nums[j] === nums[j + 1]) {
                 j++;
             }
+        }
+        while (i + 1 < nums.length && nums[i] === nums[i + 1]) {
+            i++;
         }
     }
     
