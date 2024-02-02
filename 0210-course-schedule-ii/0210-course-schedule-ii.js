@@ -16,7 +16,7 @@ var findOrder = function(numCourses, pre) {
     for (var i = 0; i < pre.length; i++) {
         courses[pre[i][0]].push(pre[i][1]);
     }
-    console.log(courses);
+    // console.log(courses);
     
     var remove = (course) => {
         for (var i = 0; i < numCourses; i++) {
