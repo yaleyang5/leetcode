@@ -4,39 +4,30 @@
  */
 var threeSum = function(nums) {
     nums = nums.sort((a, b) => a - b);
-    // every combo (binary search)
+    // every combo (two pointers)
     var result = [];
     
-    var binarySearch = (start, target) => {
+    for (var i = 0; i < nums.length - 1; i++) {
+        var target = -nums[i];
+        var start = i + 1;
         var end = nums.length - 1;
-        while (start <= end) {
-            var mid = start + Math.floor((end - start) / 2);
-            if (target > nums[mid]) {
-                start = mid + 1;
-            } else if (target < nums[mid]) {
-                end = mid - 1;
-            } else {
-                return mid;
+        while (start < end) {
+            // console.log(start, end);
+            if (nums[start] + nums[end] > target) {
+                while (end >= start && nums[end] === nums[end - 1]) {
+                    end--;
+                }
+                end--;
+                continue;
+            } else if (nums[start] + nums[end] === target) {
+                result.push([nums[i], nums[start], nums[end]]);
+                while (start + 1 < nums.length && nums[start] === nums[start + 1]) {
+                    start++;
+                }
             }
+            start++;
         }
-        return -1;
-    }
-    
-    for (var i = 0; i < nums.length; i++) {
-        var first = nums[i]
-        for (var j = i + 1; j < nums.length; j++) {
-            var second = nums[j];
-            var sum = first + second;
-            var k = binarySearch(j + 1, -sum);
-            var str = String(first) + "," + String(second) + "," + String(nums[k]);
-            if (k !== -1) {
-                result.push([first, second, nums[k]]);
-            }
-            while (j + 1 < nums.length && nums[j] === nums[j + 1]) {
-                j++;
-            }
-        }
-        while (i + 1 < nums.length && nums[i] === nums[i + 1]) {
+        while (i < nums.length - 2 && nums[i] === nums[i + 1]) {
             i++;
         }
     }
