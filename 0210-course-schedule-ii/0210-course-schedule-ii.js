@@ -4,46 +4,44 @@
  * @return {number[]}
  */
 var findOrder = function(numCourses, pre) {
-    // basic logic:
-    // loop until #courses remaining === 0
-        // complete all courses that do not require prerequisites, 
-            // and remove those courses from all courses' prerequisites
-        // if none completed and #courses remaining > 0, return []
-    var courses = {};
+    var preReqs = {};
+    var path = {};
     for (var i = 0; i < numCourses; i++) {
-        courses[i] = [];
+        preReqs[i] = [];
     }
     for (var i = 0; i < pre.length; i++) {
-        courses[pre[i][0]].push(pre[i][1]);
+        preReqs[pre[i][0]].push(pre[i][1]);
     }
-    // console.log(courses);
-    
-    var remove = (course) => {
-        for (var i = 0; i < numCourses; i++) {
-            var index = courses[i].indexOf(course);
-            if (index !== -1) {
-                courses[i].splice(index, 1);
-            }
-        }
-    }
-    
+    // console.log(preReqs);
     var order = [];
-    var taken = {};
-    var courseTaken = false;
-    while (order.length < numCourses) {
-        for (var i = 0; i < numCourses; i++) {
-            if(taken[i] !== 1 && courses[i].length === 0) {
-                order.push(i);
-                courseTaken = true;
-                taken[i] = 1;
-                remove(i);
+    var visited = {};
+    var cycle = {};
+    
+    var dfs = (course) => {
+        if (cycle[course] === 1) {
+            return false;
+        }
+        if (visited[course] === 1) {
+            return true;
+        }
+        
+        cycle[course] = 1;
+        
+        for (var i = 0; i < preReqs[course].length; i++) {
+            if (dfs(preReqs[course][i]) === false) {
+                return false;
             }
         }
-        if (!courseTaken && order.length < numCourses) {
+        cycle[course] = 0;
+        visited[course] = 1;
+        order.push(course);
+        return true;
+    }
+    
+    for (var i = 0; i < numCourses; i++) {
+        if (dfs(i) === false) {
             return [];
         }
-        courseTaken = false;
     }
     return order;
 };
-
