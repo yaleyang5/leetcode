@@ -22,7 +22,7 @@ var groupAnagrams = function(strs) {
         for (var i = 0; i < alpha.length; i++) {
             nums += String(letters[alpha[i]]) + ",";
         }
-        console.log(alpha + nums);
+        // console.log(alpha + nums);
         if (anas[alpha + nums] === undefined) {
             anas[alpha + nums] = [];
         }
