@@ -3,34 +3,30 @@
  * @return {string[][]}
  */
 var groupAnagrams = function(strs) {
-    var result = [];
-    for (var i = 0; i < strs.length; i++) {
-        // console.log(result)
-        if (result.length === 0) {
-            result.push([strs[i]]);
-        } else {
-            var found = false;
-            for (var j = 0; j < result.length; j++) {
-                if (isAnagram(strs[i], result[j][0])) {
-                    result[j].push(strs[i]);
-                    found = true;
-                    break;
-                }
+    // make each word an obj=> letter: amount
+    // make an obj=> "abc123" => ["cab", "bac"]
+    // return object.values(passwords)
+    var anas = {};
+    for (var str of strs) {
+        var letters = {};
+        var alpha = "";
+        var nums = "";
+        for (var char of str) {
+            if (letters[char] === undefined) {
+                letters[char] = 0;
+                alpha += char;
             }
-            if (!found) {
-                result.push([strs[i]]);
-            }
+            letters[char]++;
         }
+        alpha = alpha.split("").sort().join("");
+        for (var i = 0; i < alpha.length; i++) {
+            nums += String(letters[alpha[i]]) + ",";
+        }
+        console.log(alpha + nums);
+        if (anas[alpha + nums] === undefined) {
+            anas[alpha + nums] = [];
+        }
+        anas[alpha + nums].push(str);
     }
-    return result;
+    return Object.values(anas);
 };
-
-var isAnagram = (w1, w2) => {
-    if (w1.length !== w2.length) {
-        return false;
-    }
-    var sortedStr1 = w1.split('').sort().join('');
-    var sortedStr2 = w2.split('').sort().join('');
-    
-    return sortedStr1 === sortedStr2;
-}
