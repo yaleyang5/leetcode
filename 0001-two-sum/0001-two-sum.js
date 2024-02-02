@@ -4,12 +4,12 @@
  * @return {number[]}
  */
 var twoSum = function(nums, target) {
-    var differences = {};
+    var diff = {};
     for (var i = 0; i < nums.length; i++) {
-        if (differences[nums[i]] === undefined) {
-            differences[target - nums[i]] = i;
+        if (diff[target - nums[i]] === undefined) {
+            diff[nums[i]] = i;
         } else {
-            return [differences[nums[i]], i];
+            return [i, diff[target - nums[i]]];
         }
     }
     return [-1, -1];
